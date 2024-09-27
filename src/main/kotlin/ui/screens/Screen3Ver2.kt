@@ -30,7 +30,7 @@ fun Screen3Ver2() {
     val onButtonClick: (Char) -> Unit = { letter ->
         isPressed = !isPressed
 
-        if (isPressed) {
+        if (!chosenLetters.contains(letter)) {
             chosenLetters.add(letter)
         } else {
             chosenLetters.remove(letter)
@@ -60,20 +60,25 @@ private fun Screen3Display(onButtonClick: (Char) -> Unit, chosenLetters: Mutable
         Text(
             text = "Вы добавили буквы:\n" + chosenLetters.joinToString(" ")
         )
-        LetterButtons(onButtonClick, isPressed)
+        LetterButtons(onButtonClick, isPressed, chosenLetters)
     }
 }
 
 @Composable
-fun LetterButtons(onButtonClick: (Char) -> Unit, isPressed: Boolean) {
-    CreateButtons(mostCommonLetters, onButtonClick, isPressed)
-    CreateButtons(usuallyLetters, onButtonClick, isPressed)
-    CreateButtons(rareLetters, onButtonClick, isPressed)
+fun LetterButtons(onButtonClick: (Char) -> Unit, isPressed: Boolean, chosenLetters: MutableSet<Char>) {
+    CreateButtons(mostCommonLetters, onButtonClick, isPressed, chosenLetters)
+    CreateButtons(usuallyLetters, onButtonClick, isPressed, chosenLetters)
+    CreateButtons(rareLetters, onButtonClick, isPressed, chosenLetters)
 }
 
 
 @Composable
-fun CreateButtons(letters: List<Char>, onButtonClick: (Char) -> Unit, isPressed: Boolean) {
+fun CreateButtons(
+    letters: List<Char>,
+    onButtonClick: (Char) -> Unit,
+    isPressed: Boolean,
+    chosenLetters: MutableSet<Char>
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -84,7 +89,11 @@ fun CreateButtons(letters: List<Char>, onButtonClick: (Char) -> Unit, isPressed:
             Button(
                 onClick = { onButtonClick(letter) },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = if (isPressed) Color.Green else Color.Gray // Меняем цвет в зависимости от состояния
+                    backgroundColor = if (chosenLetters.contains(letter)) {
+                        Color.Green
+                    } else {
+                        Color.Gray
+                    }
                 ),
                 modifier = Modifier
                     .weight(1f, fill = false)
