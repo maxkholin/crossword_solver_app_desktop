@@ -1,4 +1,4 @@
-package ui.screens
+package ui.screens.variants
 
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHostState

@@ -20,7 +20,7 @@ import logic.getListOfWords
  *                       которая принимает длину слова и загружает соответствующий список слов.
  */
 @Composable
-fun ScreenWordLength() {
+fun Screen1WordLength() {
     var wordLength by remember { mutableStateOf(0) }
     var words by remember { mutableStateOf<List<String>>(emptyList()) }
 
@@ -29,7 +29,7 @@ fun ScreenWordLength() {
         words = getListOfWords(wordLength)
     }
 
-    ScreenWordLengthDisplay(onButtonClick = onButtonClick)
+    Screen1Display(onButtonClick = onButtonClick)
 }
 
 /**
@@ -40,7 +40,7 @@ fun ScreenWordLength() {
  * - [ButtonGrid] - функция, отображающая сетку из 16 кнопок для выбора длины слова.
  */
 @Composable
-private fun ScreenWordLengthDisplay(onButtonClick: (Int) -> Unit) {
+private fun Screen1Display(onButtonClick: (Int) -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

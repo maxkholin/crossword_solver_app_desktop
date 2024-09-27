@@ -1,4 +1,4 @@
-package ui.screens
+package ui.screens.variants
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,8 +17,8 @@ import logic.getListOfWords
 import logic.parseLettersCount
 import kotlinx.coroutines.launch
 
-const val NOT_A_NUMBER = -1
-const val TOO_SHORT_OR_LONG = 0
+private const val NOT_A_NUMBER = -1
+private const val TOO_SHORT_OR_LONG = 0
 
 @Composable
 fun ScreenWordLengthV2() {

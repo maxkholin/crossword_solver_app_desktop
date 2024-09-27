@@ -20,7 +20,7 @@ const val MODE_SET = 1
 const val MODE_MASK = 2
 
 @Composable
-fun ScreenChooseMode() {
+fun Screen2ChooseMode() {
     var mode by remember { mutableStateOf(1) }
 
     val onButtonClick: (Int) -> Unit = { modeButton ->
@@ -32,36 +32,44 @@ fun ScreenChooseMode() {
 
     }
 
-    ScreenChooseModeDisplay(onButtonClick, mode)
+    Screen2Display(onButtonClick, mode)
 }
 
 @Composable
-private fun ScreenChooseModeDisplay(onButtonClick: (Int) -> Unit, mode: Int) {
+private fun Screen2Display(onButtonClick: (Int) -> Unit, mode: Int) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.White)
-            .padding(10.dp),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = MyStrings.CHOOSE_MODE,
-            textAlign = TextAlign.Center,
-            fontSize = 48.sp
+            text = MyStrings.LENGTH_REMINDER,
+            fontSize = 24.sp
         )
-
-        Row(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 48.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .fillMaxSize()
+                .background(color = Color.White)
+                .padding(10.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            DisplayButtons(onButtonClick)
-        }
+            Text(
+                text = MyStrings.CHOOSE_MODE,
+                textAlign = TextAlign.Center,
+                fontSize = 48.sp
+            )
 
-        DisplayChosenMode(mode)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 48.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                DisplayButtons(onButtonClick)
+            }
+
+            DisplayChosenMode(mode)
+        }
     }
 }
 
