@@ -12,14 +12,16 @@ object MyStrings {
 
     const val TOO_SHORT_OR_LONG = "Извините слова короче 3 или длиннее 18 букв мы не ищем.\n" +
             "Попробуйте снова"
-    const val TOO_SHORT_OR_LONG_CODE = "0"
 
     const val NOT_A_NUMBER = "Вы ввели не число, попробуйте снова"
-    const val NOT_A_NUMBER_CODE = "-1"
+
 
     const val CHOOSE_MODE = "Выберите режим поиска"
     const val CHOOSE_MODE_SET = " По множеству букв"
     const val CHOOSE_MODE_MASK = "По маске"
+
+    const val I_AM_BUTTON = "Я кнопка :)"
+    const val CLICK_ME = "Нажми меня!"
 
     const val MODE_SET = "Вы выбрали режим: поиск по множеству букв\n" +
             "Введите множество букв без пробелов и запятых:"

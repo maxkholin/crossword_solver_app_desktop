@@ -2,12 +2,14 @@ package ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -64,16 +66,6 @@ private fun ScreenChooseModeDisplay(onButtonClick: (Int) -> Unit, mode: Int) {
 }
 
 @Composable
-private fun DisplayChosenMode(mode: Int) {
-    val modeString = if (mode == MODE_SET) MyStrings.CHOOSE_MODE_SET else MyStrings.CHOOSE_MODE_MASK
-    Text(
-        text = "Вы выбрали режим: $modeString",
-        modifier = Modifier
-            .padding(12.dp)
-    )
-}
-
-@Composable
 private fun DisplayButtons(onButtonClick: (Int) -> Unit) {
     for (i in 1..2) {
         Column(
@@ -86,12 +78,15 @@ private fun DisplayButtons(onButtonClick: (Int) -> Unit) {
                 onClick = { onButtonClick(modeButton) },
                 modifier = Modifier
                     .padding(36.dp)
-                    .size(160.dp),
-                elevation = ButtonDefaults.elevation(
-                    pressedElevation = 64.dp
-                )
-
-            ) { }
+                    .size(160.dp)
+                    .clip(CircleShape),
+                elevation = ButtonDefaults.elevation(pressedElevation = 64.dp),
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = MyStrings.I_AM_BUTTON)
+                    Text(text = MyStrings.CLICK_ME)
+                }
+            }
 
             val modeText = if (i == MODE_SET) MyStrings.CHOOSE_MODE_SET else MyStrings.CHOOSE_MODE_MASK
             Text(
@@ -100,4 +95,14 @@ private fun DisplayButtons(onButtonClick: (Int) -> Unit) {
             )
         }
     }
+}
+
+@Composable
+private fun DisplayChosenMode(mode: Int) {
+    val modeString = if (mode == MODE_SET) MyStrings.CHOOSE_MODE_SET else MyStrings.CHOOSE_MODE_MASK
+    Text(
+        text = "Вы выбрали режим: $modeString",
+        modifier = Modifier
+            .padding(12.dp)
+    )
 }

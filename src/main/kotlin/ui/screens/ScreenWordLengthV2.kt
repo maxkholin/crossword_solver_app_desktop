@@ -17,6 +17,9 @@ import logic.getListOfWords
 import logic.parseLettersCount
 import kotlinx.coroutines.launch
 
+const val NOT_A_NUMBER = -1
+const val TOO_SHORT_OR_LONG = 0
+
 @Composable
 fun ScreenWordLengthV2() {
     var wordLengthString by remember { mutableStateOf("") }
@@ -27,14 +30,14 @@ fun ScreenWordLengthV2() {
 
     val onWordLengthButtonClick: () -> Unit = {
         when (val length = parseLettersCount(wordLengthString)) {
-            MyStrings.NOT_A_NUMBER_CODE.toInt() -> {
+            NOT_A_NUMBER -> {
                 // Отображение ошибки
                 coroutineScope.launch { // Запускаем корутину
                     showErrorMessage(snackbarHostState, MyStrings.NOT_A_NUMBER)
                 }
             }
 
-            MyStrings.TOO_SHORT_OR_LONG_CODE.toInt() -> {
+            TOO_SHORT_OR_LONG -> {
                 coroutineScope.launch { // Запускаем корутину
                     showErrorMessage(snackbarHostState, MyStrings.TOO_SHORT_OR_LONG)
                 }
