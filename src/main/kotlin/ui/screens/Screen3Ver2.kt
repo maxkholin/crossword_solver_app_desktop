@@ -24,18 +24,15 @@ private val rareLetters = createRareLetters()
 @Composable
 fun Screen3Ver2() {
     var isPressed by remember { mutableStateOf(false) }
-    var chosenLetters by remember { mutableStateOf(mutableSetOf<Char>()) }
-
+    val chosenLetters by remember { mutableStateOf(mutableSetOf<Char>()) }
 
     val onButtonClick: (Char) -> Unit = { letter ->
-        isPressed = !isPressed
-
         if (!chosenLetters.contains(letter)) {
             chosenLetters.add(letter)
         } else {
             chosenLetters.remove(letter)
         }
-
+        isPressed = !isPressed
     }
 
     Screen3Display(onButtonClick, chosenLetters, isPressed)
@@ -60,23 +57,22 @@ private fun Screen3Display(onButtonClick: (Char) -> Unit, chosenLetters: Mutable
         Text(
             text = "Вы добавили буквы:\n" + chosenLetters.joinToString(" ")
         )
-        LetterButtons(onButtonClick, isPressed, chosenLetters)
+        LetterButtons(onButtonClick, chosenLetters)
     }
 }
 
 @Composable
-fun LetterButtons(onButtonClick: (Char) -> Unit, isPressed: Boolean, chosenLetters: MutableSet<Char>) {
-    CreateButtons(mostCommonLetters, onButtonClick, isPressed, chosenLetters)
-    CreateButtons(usuallyLetters, onButtonClick, isPressed, chosenLetters)
-    CreateButtons(rareLetters, onButtonClick, isPressed, chosenLetters)
+private fun LetterButtons(onButtonClick: (Char) -> Unit, chosenLetters: MutableSet<Char>) {
+    CreateButtons(mostCommonLetters, onButtonClick, chosenLetters)
+    CreateButtons(usuallyLetters, onButtonClick, chosenLetters)
+    CreateButtons(rareLetters, onButtonClick, chosenLetters)
 }
 
 
 @Composable
-fun CreateButtons(
+private fun CreateButtons(
     letters: List<Char>,
     onButtonClick: (Char) -> Unit,
-    isPressed: Boolean,
     chosenLetters: MutableSet<Char>
 ) {
     Row(
