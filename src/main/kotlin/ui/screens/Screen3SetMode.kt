@@ -5,45 +5,40 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import logic.createMostCommonLetters
-import logic.createMutableMapOfLetters
-import logic.createRareLetters
-import logic.createUsuallyLetters
-
-
-private val mostCommonLetters = createMostCommonLetters()
-private val usuallyLetters = createUsuallyLetters()
-private val rareLetters = createRareLetters()
+import logic.HowCommonLetterType
+import logic.LetterButtonModel
+import logic.createLetters
+import resources.MyStrings
 
 @Composable
 fun Screen3SetMode() {
-    val chosenLetters by remember { mutableStateOf(createMutableMapOfLetters()) }
+    val chosenLetters by remember { mutableStateOf( createLetters().toSet()) }
+    var trigger by remember { mutableStateOf(false) }
 
-    val onButtonClick: (Char) -> Unit = { letter ->
-        if (chosenLetters[letter] == true) {
-            chosenLetters[letter] = false
+    val onButtonClick: (LetterButtonModel) -> Unit = { letterButtonModel ->
+        if (!letterButtonModel.isPressed) {
+            letterButtonModel.isPressed = true
         } else {
-            chosenLetters[letter] = true
+            letterButtonModel.isPressed = false
         }
+        trigger = !trigger
     }
 
-    Screen3Display(onButtonClick, chosenLetters)
+    Screen3Display(onButtonClick, chosenLetters, trigger)
 }
 
 @Composable
 private fun Screen3Display(
-    onButtonClick: (Char) -> Unit,
-    chosenLetters: MutableMap<Char, Boolean>
+    onButtonClick: (LetterButtonModel) -> Unit,
+    chosenLetters: Set<LetterButtonModel>,
+    trigger: Boolean
 ) {
     Column(
         modifier = Modifier
@@ -53,35 +48,64 @@ private fun Screen3Display(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = { chosenLetters['a'] = true }) {}
         Text(
-            text = "Отметьте нужные буквы",
+            text = MyStrings.MODE_SET,
             fontSize = 36.sp,
-            modifier = Modifier
-                .padding(bottom = 100.dp)
         )
         Text(
-            text = "$chosenLetters"
+            text = MyStrings.CHOOSE_LETTERS,
+            fontSize = 36.sp,
         )
+        Spacer(modifier = Modifier.height(32.dp))
+        Text(
+            text = chosenLetters
+                .filter { it.isPressed }
+                .map { it.letter }
+                .sorted()
+                .joinToString(" "),
+            fontSize = 16.sp
+        )
+        Spacer(modifier = Modifier.height(32.dp))
         LetterButtons(onButtonClick, chosenLetters)
+        Spacer(modifier = Modifier.height(32.dp))
+        Button(onClick = {}){
+            Text(
+                text = MyStrings.NEXT,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 
 @Composable
 private fun LetterButtons(
-    onButtonClick: (Char) -> Unit,
-    chosenLetters: MutableMap<Char, Boolean>
+    onButtonClick: (LetterButtonModel) -> Unit,
+    chosenLetters: Set<LetterButtonModel>
 ) {
-    CreateButtons(mostCommonLetters, onButtonClick, chosenLetters)
-    CreateButtons(usuallyLetters, onButtonClick, chosenLetters)
-    CreateButtons(rareLetters, onButtonClick, chosenLetters)
+    CreateButtons(
+        onButtonClick,
+        chosenLetters,
+        HowCommonLetterType.MOST_COMMON
+    )
+    CreateButtons(
+        onButtonClick,
+        chosenLetters,
+        HowCommonLetterType.USUALLY
+    )
+    CreateButtons(
+        onButtonClick,
+        chosenLetters,
+        HowCommonLetterType.RARE
+    )
 }
+
 
 @Composable
 private fun CreateButtons(
-    letters: List<Char>,
-    onButtonClick: (Char) -> Unit,
-    chosenLetters: MutableMap<Char, Boolean>
+    onButtonClick: (LetterButtonModel) -> Unit,
+    chosenLetters: Set<LetterButtonModel>,
+    commonType: HowCommonLetterType
 ) {
     Row(
         modifier = Modifier
@@ -89,11 +113,15 @@ private fun CreateButtons(
             .height(64.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        for (letter in letters) {
+        chosenLetters.filter { it.type == commonType }.forEach {
             Button(
-                onClick = { onButtonClick(letter) },
+                onClick = { onButtonClick(it) },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = if (chosenLetters[letter] == true) Color.Green else Color.Gray // Меняем цвет в зависимости от состояния
+                    backgroundColor = if (it.isPressed) {
+                        Color.Green
+                    } else {
+                        Color.Gray
+                    }
                 ),
                 modifier = Modifier
                     .weight(1f, fill = false)
@@ -101,7 +129,7 @@ private fun CreateButtons(
                     .fillMaxHeight()
             ) {
                 Text(
-                    text = "$letter",
+                    text = "${it.letter}",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
