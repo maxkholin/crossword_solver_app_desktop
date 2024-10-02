@@ -6,6 +6,8 @@ object MyStrings {
     const val PARSE_LENGTH = "Введите длину искомого слова:"
     const val PARSE_LENGTH_SECOND = "Выберите количество букв в слове"
 
+    const val LENGTH_REMINDER = "Напоминание: Длина выбранного слова - "
+
     const val LABEL_PARSE_LENGTH = "Число от 3 до 18"
 
     const val NEXT = "Далее"
@@ -23,17 +25,15 @@ object MyStrings {
     const val I_AM_BUTTON = "Я кнопка :)"
     const val CLICK_ME = "Нажми меня!"
 
-    const val MODE_SET = "Вы выбрали режим: поиск по множеству букв\n" +
-            "Введите множество букв без пробелов и запятых:"
+    const val MODE_SET = "Режим: поиск по множеству букв"
 
-    const val MODE_MASK = "Вы выбрали режим: поиск по маске\n" +
+    const val MODE_MASK = "Режим: поиск по маске" +
             "Введите строку в формате \\\"_____\\\" вместо неизвестных букв указывая '*', " +
             "например \\\"а**уз\\\":"
 
-    //const val INVALID_MODE = "Вы выбрали неверный режим, попробуйте снова\n${SELECT_MODE}"
+    const val MODE_EXLUDE_LETTERS = "Режим: исключение букв"
 
-    const val EXLUDE_LETTERS_MODE = "Если вы хотите исключить буквы из поиска введите их без пробелов и " +
-            "запятых, или просто нажмите \"Enter\":"
+    const val CHOOSE_LETTERS = "Отметьте нужные буквы"
 
     const val NOT_FOUND = "К сожалению ничего не найдено, попробуйте снова"
 
