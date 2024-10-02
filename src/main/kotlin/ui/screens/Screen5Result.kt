@@ -19,35 +19,51 @@ fun Screen5Result() {
     val words = mutableListOf<String>()
 
     if (words.isEmpty()) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = MyStrings.NOT_FOUND,
-                fontSize = 32.sp
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            Button(onClick = {}) {
-                Text(
-                    text = MyStrings.TRY_AGAIN
-                )
-            }
-        }
+        TryAgain()
     } else {
+        Result(words)
+    }
+}
+
+@Composable
+private fun Result(words: List<String>) {
+    Column(modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
-            text = ""
+            text = MyStrings.RESULT + words.size,
+            fontSize = 48.sp,
+            modifier = Modifier.padding(horizontal = 100.dp, vertical = 32.dp)
         )
         LazyColumn {
             items(words) { word ->
                 Text(
                     text = word,
+                    fontSize = 36.sp,
                     modifier = Modifier.padding(8.dp)
                 )
             }
         }
     }
+}
 
-
+@Composable
+private fun TryAgain() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = MyStrings.NOT_FOUND,
+            fontSize = 48.sp
+        )
+        Spacer(modifier = Modifier.height(48.dp))
+        Button(onClick = {}) {
+            Text(
+                text = MyStrings.TRY_AGAIN,
+                fontSize = 36.sp
+            )
+        }
+    }
 }

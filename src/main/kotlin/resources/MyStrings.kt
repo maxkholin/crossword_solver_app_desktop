@@ -35,9 +35,9 @@ object MyStrings {
 
     const val CHOOSE_LETTERS = "Отметьте нужные буквы"
 
-    const val RESULT = "Найденные слова:"
+    const val RESULT = "Найдено слов: "
 
-    const val NOT_FOUND = "К сожалению ничего не найдено"
+    const val NOT_FOUND = "Ничего не найдено"
 
     const val TRY_AGAIN = "Попробовать снова"
 
