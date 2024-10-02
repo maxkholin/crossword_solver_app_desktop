@@ -1,6 +1,5 @@
 package logic
 
-import resources.MyStrings
 import java.io.File
 
 
@@ -48,16 +47,21 @@ import java.io.File
 //    }
 //}
 
+
+/**
+ *  Изменил логику первого экрана
+ *  теперь длина слова выбирается нажатием и пользователь не может ввести не валидные данные
+ */
 fun parseLettersCount(length: String): Int {
     return try {
         val result = length.trim().toInt()
-        if ( result in 3..18) {
+        if (result in 3..18) {
             result
         } else {
-            MyStrings.TOO_SHORT_OR_LONG_CODE.toInt()
+            0
         }
     } catch (e: Exception) {
-        MyStrings.NOT_A_NUMBER_CODE.toInt()
+        -1
     }
 }
 
@@ -92,23 +96,26 @@ fun searchByMask(words: List<String>, result: MutableList<String>, countOfLetter
     }
 }
 
-fun searchBySet(words: List<String>, result: MutableList<String>) {
-    val search: Set<Char> = readln().lowercase().toCharArray().toSet()
-
-    for (word in words) {
-        val currentWord = word.lowercase()
-        if (search.all { it in currentWord }) {
-            result.add(word)
+fun searchBySet(words: List<String>, search: Set<Char>, result: MutableList<String>) {
+    result.addAll(
+        words.filter { word ->
+            search.all { it in word.lowercase() }
         }
-    }
+    )
 }
 
-fun exludeLetters(lettersToExlude: Set<Char>, words: MutableList<String>) {
-    val iterator = words.iterator()
+fun exludeLetters(lettersToExlude: Set<Char>, result: MutableList<String>) {
+    val iterator = result.iterator()
     while (iterator.hasNext()) {
         val word = iterator.next()
         if (lettersToExlude.any { it in word }) {
             iterator.remove()
         }
+    }
+}
+
+fun excludeLetters2(lettersToExclude: Set<Char>, result: MutableList<String>): List<String> {
+    return result.filterNot { word ->
+        lettersToExclude.any { it in word }
     }
 }
