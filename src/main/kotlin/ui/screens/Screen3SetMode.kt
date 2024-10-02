@@ -23,11 +23,7 @@ fun Screen3SetMode() {
     var trigger by remember { mutableStateOf(false) }
 
     val onButtonClick: (LetterButtonModel) -> Unit = { letterButtonModel ->
-        if (!letterButtonModel.isPressed) {
-            letterButtonModel.isPressed = true
-        } else {
-            letterButtonModel.isPressed = false
-        }
+        letterButtonModel.isPressed = !letterButtonModel.isPressed
         trigger = !trigger
     }
 
