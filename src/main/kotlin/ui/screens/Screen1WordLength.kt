@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -20,20 +21,14 @@ import logic.getListOfWords
  *                       которая принимает длину слова и загружает соответствующий список слов.
  */
 @Composable
-fun Screen1WordLength() {
-    var wordLength by remember { mutableStateOf(0) }
-    var words by remember { mutableStateOf<List<String>>(emptyList()) }
-
-    val onButtonClick: (Int) -> Unit = { length ->
-        wordLength = length
-        words = getListOfWords(wordLength)
-    }
-
-    Screen1Display(onButtonClick = onButtonClick)
+fun Screen1WordLength(
+    onButtonLengthClick: (Int) -> Unit
+) {
+    Screen1Display(onButtonClick = onButtonLengthClick)
 }
 
 /**
- * Композ-функция, отвечающая за отрисовку основного экрана.
+ * Композ-функция, отвечающая за отрисовку данного экрана.
  *
  * Включает в себя:
  * - [Text] - элемент текста, предлагающий пользователю выбрать длину слова.
