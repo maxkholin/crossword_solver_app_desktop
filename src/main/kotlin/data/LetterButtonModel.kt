@@ -1,6 +1,10 @@
-package logic
+package data
 
-data class LetterButtonModel(val letter: Char, var isPressed: Boolean, val type: HowCommonLetterType)
+data class LetterButtonModel(
+    val letter: Char,
+    var isPressed: Boolean,
+    val type: HowCommonLetterType
+)
 
 enum class HowCommonLetterType {
     MOST_COMMON,
