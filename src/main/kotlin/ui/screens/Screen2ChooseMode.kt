@@ -15,28 +15,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import resources.MyStrings
-
-const val MODE_SET = 1
-const val MODE_MASK = 2
+import ui.MODE_MASK
+import ui.MODE_SET
 
 @Composable
-fun Screen2ChooseMode() {
-    var mode by remember { mutableStateOf(1) }
-
-    val onButtonClick: (Int) -> Unit = { modeButton ->
-        mode = if (modeButton == MODE_SET) {
-            MODE_SET
-        } else {
-            MODE_MASK
-        }
-
-    }
-
-    Screen2Display(onButtonClick, mode)
+fun Screen2ChooseMode(
+    onButtonModeClick: (Int) -> Unit,
+    mode: Int
+) {
+    Screen2Display(
+        onButtonModeClick,
+        mode
+    )
 }
 
 @Composable
-private fun Screen2Display(onButtonClick: (Int) -> Unit, mode: Int) {
+private fun Screen2Display(
+    onButtonModeClick: (Int) -> Unit,
+    mode: Int
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -57,7 +54,6 @@ private fun Screen2Display(onButtonClick: (Int) -> Unit, mode: Int) {
                 textAlign = TextAlign.Center,
                 fontSize = 48.sp
             )
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -65,7 +61,7 @@ private fun Screen2Display(onButtonClick: (Int) -> Unit, mode: Int) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                DisplayButtons(onButtonClick)
+                DisplayButtons(onButtonModeClick)
             }
 
             DisplayChosenMode(mode)
@@ -74,7 +70,9 @@ private fun Screen2Display(onButtonClick: (Int) -> Unit, mode: Int) {
 }
 
 @Composable
-private fun DisplayButtons(onButtonClick: (Int) -> Unit) {
+private fun DisplayButtons(
+    onButtonModeClick: (Int) -> Unit
+) {
     for (i in 1..2) {
         Column(
             modifier = Modifier
@@ -83,7 +81,7 @@ private fun DisplayButtons(onButtonClick: (Int) -> Unit) {
         ) {
             val modeButton = if (i == MODE_SET) MODE_SET else MODE_MASK
             Button(
-                onClick = { onButtonClick(modeButton) },
+                onClick = { onButtonModeClick(modeButton) },
                 modifier = Modifier
                     .padding(36.dp)
                     .size(160.dp)
