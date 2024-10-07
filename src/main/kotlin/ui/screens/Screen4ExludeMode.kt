@@ -12,29 +12,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import logic.HowCommonLetterType
-import logic.LetterButtonModel
-import logic.createLetters
+import data.HowCommonLetterType
+import data.LetterButtonModel
 import resources.MyStrings
 
 @Composable
-fun Screen4ExludeMode() {
-    val exludeLetters by remember { mutableStateOf(createLetters().toSet()) }
-    var trigger by remember { mutableStateOf(false) }
-
-    val onButtonClick: (LetterButtonModel) -> Unit = { letterButtonModel ->
-        letterButtonModel.isPressed = !letterButtonModel.isPressed
-        trigger = !trigger
-    }
-
-    Screen4Display(onButtonClick, exludeLetters, trigger)
+fun Screen4ExludeMode(
+    onButtonLetterClick: (LetterButtonModel) -> Unit,
+    exludeLetters: Set<LetterButtonModel>,
+    trigger: Boolean,
+    onButtonNextClick: () -> Unit
+) {
+    Screen4Display(onButtonLetterClick, exludeLetters, trigger, onButtonNextClick)
 }
 
 @Composable
 private fun Screen4Display(
-    onButtonClick: (LetterButtonModel) -> Unit,
+    onButtonLetterClick: (LetterButtonModel) -> Unit,
     exludeLetters: Set<LetterButtonModel>,
-    trigger: Boolean
+    trigger: Boolean,
+    onButtonNextClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -62,9 +59,9 @@ private fun Screen4Display(
             fontSize = 16.sp
         )
         Spacer(modifier = Modifier.height(32.dp))
-        LetterButtons(onButtonClick, exludeLetters)
+        LetterButtons(onButtonLetterClick, exludeLetters)
         Spacer(modifier = Modifier.height(32.dp))
-        Button(onClick = {}){
+        Button(onClick = onButtonNextClick){
             Text(
                 text = MyStrings.NEXT,
                 fontSize = 24.sp,
@@ -76,21 +73,21 @@ private fun Screen4Display(
 
 @Composable
 private fun LetterButtons(
-    onButtonClick: (LetterButtonModel) -> Unit,
+    onButtonLetterClick: (LetterButtonModel) -> Unit,
     exludeLetters: Set<LetterButtonModel>
 ) {
     CreateButtons(
-        onButtonClick,
+        onButtonLetterClick,
         exludeLetters,
         HowCommonLetterType.MOST_COMMON
     )
     CreateButtons(
-        onButtonClick,
+        onButtonLetterClick,
         exludeLetters,
         HowCommonLetterType.USUALLY
     )
     CreateButtons(
-        onButtonClick,
+        onButtonLetterClick,
         exludeLetters,
         HowCommonLetterType.RARE
     )
@@ -99,7 +96,7 @@ private fun LetterButtons(
 
 @Composable
 private fun CreateButtons(
-    onButtonClick: (LetterButtonModel) -> Unit,
+    onButtonLetterClick: (LetterButtonModel) -> Unit,
     exludeLetters: Set<LetterButtonModel>,
     commonType: HowCommonLetterType
 ) {
@@ -111,7 +108,7 @@ private fun CreateButtons(
     ) {
         exludeLetters.filter { it.type == commonType }.forEach {
             Button(
-                onClick = { onButtonClick(it) },
+                onClick = { onButtonLetterClick(it) },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = if (it.isPressed) {
                         Color.Red
