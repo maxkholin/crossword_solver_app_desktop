@@ -1,5 +1,6 @@
 package logic
 
+import data.LetterButtonModel
 import java.io.File
 
 
@@ -96,26 +97,38 @@ fun searchByMask(words: List<String>, result: MutableList<String>, countOfLetter
     }
 }
 
-fun searchBySet(words: List<String>, search: Set<Char>, result: MutableList<String>) {
-    result.addAll(
-        words.filter { word ->
-            search.all { it in word.lowercase() }
-        }
-    )
-}
+//fun searchBySet(
+//    words: List<String>,
+//    search: Set<LetterButtonModel>,
+//    lettersToExclude: Set<LetterButtonModel>
+//): List<String> {
+//    val tempResult = mutableListOf<String>()
+//
+//    tempResult.addAll(
+//        words.filter { word ->
+//            search.all { it.letter in word.lowercase() }
+//        }
+//    )
+//
+//    val result = excludeLetters(lettersToExclude, tempResult)
+//    return result
+//
+//    return tempResult
+//}
+//
+//fun excludeLetters(lettersToExclude: Set<LetterButtonModel>, result: MutableList<String>): List<String> {
+//    return result.filterNot { word ->
+//        lettersToExclude.any { it.letter in word }
+//    }
+//}
 
-fun exludeLetters(lettersToExlude: Set<Char>, result: MutableList<String>) {
-    val iterator = result.iterator()
-    while (iterator.hasNext()) {
-        val word = iterator.next()
-        if (lettersToExlude.any { it in word }) {
-            iterator.remove()
-        }
-    }
-}
-
-fun excludeLetters2(lettersToExclude: Set<Char>, result: MutableList<String>): List<String> {
-    return result.filterNot { word ->
-        lettersToExclude.any { it in word }
+fun searchBySet(
+    words: List<String>,
+    search: Set<LetterButtonModel>,
+    lettersToExclude: Set<LetterButtonModel>
+): List<String> {
+    return words.filter { word ->
+        val lowercaseWord = word.lowercase()
+        search.all { it.letter in lowercaseWord } && lettersToExclude.none { it.letter in lowercaseWord }
     }
 }
