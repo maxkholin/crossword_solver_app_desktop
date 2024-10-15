@@ -37,10 +37,6 @@ private fun Screen2Display(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = MyStrings.LENGTH_REMINDER,
-            fontSize = 24.sp
-        )
         Column(
             modifier = Modifier
                 .fillMaxSize()
