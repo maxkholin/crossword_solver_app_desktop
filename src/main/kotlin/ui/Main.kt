@@ -25,17 +25,19 @@ const val SCREEN_RESULT = 5
 @Composable
 fun App() {
     var screen by remember { mutableStateOf(1) }
-    var wordLength by remember { mutableStateOf(0) }
+    var countOfLetters by remember { mutableStateOf(0) }
     var words by remember { mutableStateOf<List<String>>(emptyList()) }
     var mode by remember { mutableStateOf(1) }
 
     val chosenLetters by remember { mutableStateOf(createLetters().toSet()) }
     val exludeLetters by remember { mutableStateOf(createLetters().toSet()) }
+    var maskWord by remember { mutableStateOf("") }
+
     var trigger by remember { mutableStateOf(false) }
 
     val onLengthButtonClick: (Int) -> Unit = { length ->
-        wordLength = length
-        words = getListOfWords(wordLength)
+        countOfLetters = length
+        words = getListOfWords(countOfLetters)
         screen = SCREEN_MODE
     }
 
@@ -49,13 +51,18 @@ fun App() {
         }
     }
 
+    val onMaskButtonClick: (String) -> Unit = { word ->
+        maskWord = word
+        screen = SCREEN_RESULT
+    }
+
     val onLetterButtonClick: (LetterButtonModel) -> Unit = { letterButtonModel ->
         letterButtonModel.isPressed = !letterButtonModel.isPressed
         trigger = !trigger
     }
 
     val onButtonNextClick: () -> Unit = {
-        screen = if(screen == SCREEN_SET_MODE) {
+        screen = if (screen == SCREEN_SET_MODE) {
             SCREEN_EXLUDE_MODE
         } else {
             SCREEN_RESULT
@@ -65,21 +72,21 @@ fun App() {
     val onTryAgainButtonClick: () -> Unit = {
         chosenLetters.forEach { it.isPressed = false }
         exludeLetters.forEach { it.isPressed = false }
+        maskWord = ""
         screen = SCREEN_LENGTH
     }
 
     when (screen) {
-        SCREEN_LENGTH -> Screen1WordLength(onLengthButtonClick)
-        SCREEN_MODE -> Screen2ChooseMode(onModeButtonClick, mode)
-        SCREEN_SET_MODE -> Screen3SetMode(onLetterButtonClick, chosenLetters, trigger, onButtonNextClick)
-        SCREEN_EXLUDE_MODE -> Screen4ExludeMode(onLetterButtonClick, exludeLetters, trigger, onButtonNextClick)
-        // тут поправить
-        else -> {
+        SCREEN_LENGTH -> ScreenWordLength(onLengthButtonClick)
+        SCREEN_MODE -> ScreenChooseMode(onModeButtonClick)
+        SCREEN_SET_MODE -> ScreenSetMode(onLetterButtonClick, chosenLetters, trigger, onButtonNextClick, screen)
+        SCREEN_EXLUDE_MODE -> ScreenSetMode(onLetterButtonClick, exludeLetters, trigger, onButtonNextClick, screen)
+        SCREEN_MASK_MODE -> ScreenMaskMode(countOfLetters, onMaskButtonClick)
+        SCREEN_RESULT -> {
             val chLetters = chosenLetters.filter { it.isPressed }.toSet()
             val exLetters = exludeLetters.filter { it.isPressed }.toSet()
-            Screen5Result(words, mode, chLetters, exLetters, onTryAgainButtonClick)
+            ScreenResult(words, mode, countOfLetters, chLetters, exLetters, maskWord, onTryAgainButtonClick)
         }
-
     }
 }
 
