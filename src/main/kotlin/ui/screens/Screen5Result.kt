@@ -17,11 +17,11 @@ import ui.MODE_SET
 
 @Composable
 fun Screen5Result(
-    wordLength: Int,
     words: List<String>,
     mode: Int,
     chosenLetters: Set<LetterButtonModel>,
-    exludeLetters: Set<LetterButtonModel>
+    exludeLetters: Set<LetterButtonModel>,
+    onTryAgainButtonClick: () -> Unit
 ) {
     val foundWords = if (mode == MODE_SET) {
         searchBySet(words, chosenLetters, exludeLetters)
@@ -30,15 +30,17 @@ fun Screen5Result(
     }
 
     if (foundWords.isEmpty()) {
-        TryAgain(wordLength, chosenLetters, exludeLetters)
+        TryAgain(onTryAgainButtonClick)
     } else {
-        Result(foundWords)
+        Result(foundWords, onTryAgainButtonClick)
     }
 }
 
-
 @Composable
-private fun Result(words: List<String>) {
+private fun Result(
+    words: List<String>,
+    onTryAgainButtonClick: () -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -48,7 +50,11 @@ private fun Result(words: List<String>) {
             fontSize = 48.sp,
             modifier = Modifier.padding(horizontal = 100.dp, vertical = 32.dp)
         )
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .padding(bottom = 16.dp)
+        ) {
             items(words) { word ->
                 Text(
                     text = word,
@@ -57,14 +63,13 @@ private fun Result(words: List<String>) {
                 )
             }
         }
+        TryAgainButton(onTryAgainButtonClick)
     }
 }
 
 @Composable
 private fun TryAgain(
-    wordLength: Int,
-    chosenLetters: Set<LetterButtonModel>,
-    exludeLetters: Set<LetterButtonModel>
+    onTryAgainButtonClick: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -76,20 +81,18 @@ private fun TryAgain(
             fontSize = 48.sp
         )
         Spacer(modifier = Modifier.height(48.dp))
-        Button(onClick = {
-//            App()
-        }) {
-            Text(
-                text = MyStrings.TRY_AGAIN,
-                fontSize = 36.sp
-            )
-        }
+        TryAgainButton(onTryAgainButtonClick)
         Spacer(modifier = Modifier.height(48.dp))
+    }
+}
+
+@Composable
+fun TryAgainButton(onTryAgainButtonClick: () -> Unit) {
+    Button(onClick = onTryAgainButtonClick,
+        modifier = Modifier.padding(16.dp)) {
         Text(
-            text = "length = $wordLength, " +
-                    "choose letters = ${chosenLetters.joinToString(" ")}" +
-                    "exlude letters = ${exludeLetters.joinToString(" ")}",
-            fontSize = 24.sp
+            text = MyStrings.TRY_AGAIN,
+            fontSize = 36.sp
         )
     }
 }
