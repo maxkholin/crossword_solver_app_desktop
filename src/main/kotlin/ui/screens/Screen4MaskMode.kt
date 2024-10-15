@@ -53,14 +53,12 @@ private fun MaskLetters(
     countOfLetters: Int,
     onMaskChanged: (String) -> Unit
 ) {
-    // Список символов, введенных в каждое поле, инициализируется пустыми строками.
     val letters = remember { mutableStateListOf<String>().apply { repeat(countOfLetters) { add("") } } }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        // Создаем TextField для каждого символа
         repeat(countOfLetters) { index ->
             val cellSize: Int
             val fontSize: Int
@@ -81,12 +79,9 @@ private fun MaskLetters(
             TextField(
                 value = letters[index],
                 onValueChange = { newValue ->
-                    // Проверяем, что длина введенного текста не превышает одного символа.
                     if (newValue.length <= 1) {
-                        // Обновляем конкретный символ в списке.
                         letters[index] = newValue
 
-                        // Формируем маску и вызываем onMaskChanged для передачи родителю.
                         val mask = letters.joinToString(separator = "") { char ->
                             char.ifBlank { "*" }
                         }
