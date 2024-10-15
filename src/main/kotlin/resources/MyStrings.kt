@@ -19,7 +19,7 @@ object MyStrings {
 
 
     const val CHOOSE_MODE = "Выберите режим поиска"
-    const val CHOOSE_MODE_SET = " По множеству букв"
+    const val CHOOSE_MODE_SET = "По множеству букв"
     const val CHOOSE_MODE_MASK = "По маске"
 
     const val I_AM_BUTTON = "Я кнопка :)"
