@@ -1,14 +1,9 @@
 package ui
 
 import androidx.compose.runtime.*
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberWindowState
 import data.LetterButtonModel
 import data.createLetters
 import logic.getListOfWords
-import resources.MyStrings
 import ui.screens.*
 
 const val MODE_SET = 1
@@ -20,7 +15,6 @@ const val SCREEN_SET_MODE = 3
 const val SCREEN_MASK_MODE = 33
 const val SCREEN_EXLUDE_MODE = 4
 const val SCREEN_RESULT = 5
-
 
 @Composable
 fun App() {
@@ -87,16 +81,5 @@ fun App() {
             val exLetters = exludeLetters.filter { it.isPressed }.toSet()
             ScreenResult(words, mode, countOfLetters, chLetters, exLetters, maskWord, onTryAgainButtonClick)
         }
-    }
-}
-
-fun main() = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = MyStrings.APP_TITLE,
-        state = rememberWindowState(width = 800.dp, height = 600.dp),
-        resizable = false
-    ) {
-        App()
     }
 }
