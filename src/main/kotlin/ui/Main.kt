@@ -69,10 +69,10 @@ fun App() {
     }
 
     when (screen) {
-        1 -> Screen1WordLength(onLengthButtonClick)
-        2 -> Screen2ChooseMode(onModeButtonClick, mode)
-        3 -> Screen3SetMode(onLetterButtonClick, chosenLetters, trigger, onButtonNextClick)
-        4 -> Screen4ExludeMode(onLetterButtonClick, exludeLetters, trigger, onButtonNextClick)
+        SCREEN_LENGTH -> Screen1WordLength(onLengthButtonClick)
+        SCREEN_MODE -> Screen2ChooseMode(onModeButtonClick, mode)
+        SCREEN_SET_MODE -> Screen3SetMode(onLetterButtonClick, chosenLetters, trigger, onButtonNextClick)
+        SCREEN_EXLUDE_MODE -> Screen4ExludeMode(onLetterButtonClick, exludeLetters, trigger, onButtonNextClick)
         // тут поправить
         else -> {
             val chLetters = chosenLetters.filter { it.isPressed }.toSet()
