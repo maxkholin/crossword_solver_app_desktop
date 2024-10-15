@@ -21,3 +21,5 @@
 
 - Разработка мобильного приложения с использованием MVVM архитектуры и Jetpack Navigation
 
+https://github.com/maxkholin/crossword_solver_app
+
